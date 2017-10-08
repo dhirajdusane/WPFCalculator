@@ -89,9 +89,6 @@ namespace WPFCalculator
             string newValue = obj as string;
             newValue = newValue.ToLowerInvariant();
 
-            if (ScreenText == "0" && newValue == "0")
-                return;
-
             if (digitArray.Contains(newValue))
             {
                 stringBuffer += newValue;
@@ -103,7 +100,7 @@ namespace WPFCalculator
                 operand = newValue;
             }
         }
-        
+
         private void ProcessSign()
         {
             if (!string.IsNullOrEmpty(stringBuffer))
@@ -116,7 +113,7 @@ namespace WPFCalculator
 
         private void CalculateQueue(Queue<string> commandQueue)
         {
-            double left = 0, right = 0,result = 0;
+            double left = 0, right = 0, result = 0;
             string value = commandQueue.Dequeue();
             double.TryParse(value, out left);
             value = commandQueue.Dequeue();
@@ -128,7 +125,7 @@ namespace WPFCalculator
                     result = left + right;
                     break;
                 case "-":
-                    result = left -right;
+                    result = left - right;
                     break;
                 case "x":
                     result = left * right;
@@ -137,6 +134,8 @@ namespace WPFCalculator
                     result = left / right;
                     break;
                 case "=":
+                    result = right;
+                    break;
                 default:
                     throw new NotImplementedException();
             }
