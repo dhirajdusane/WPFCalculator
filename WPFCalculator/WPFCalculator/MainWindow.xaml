@@ -1,0 +1,50 @@
+﻿<Window x:Class="WPFCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFCalculator"
+        mc:Ignorable="d" DataContext="{DynamicResource viewModel}"
+        Title="Calculator" Height="270" Width="260"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <local:ViewModel x:Key="viewModel"/>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="BorderThickness" Value="0"/>            
+        </Style>
+        <DataTemplate x:Key="displayTemplate" >
+            <Button Content="{Binding DisplayContent}" 
+                    Command="{Binding DataContext.BtnClick,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                    CommandParameter="{Binding Path=Content, RelativeSource={RelativeSource Self}}"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Label Width="195" Content="{Binding ScreenText}" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
+            <Button Width="30" Content="C" Command="{Binding ClearClick}"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ItemsControl Grid.Column="0" ItemsSource="{Binding DisplayList[0]}" ItemTemplate="{StaticResource displayTemplate}"/>
+            <ItemsControl Grid.Column="1" ItemsSource="{Binding DisplayList[1]}" ItemTemplate="{StaticResource displayTemplate}"/>
+            <ItemsControl Grid.Column="2" ItemsSource="{Binding DisplayList[2]}" ItemTemplate="{StaticResource displayTemplate}"/>
+            <ItemsControl Grid.Column="3" ItemsSource="{Binding DisplayList[3]}" ItemTemplate="{StaticResource displayTemplate}"/>
+        </Grid>
+    </Grid>
+</Window>
